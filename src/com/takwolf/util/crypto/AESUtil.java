@@ -11,9 +11,9 @@ public class AESUtil {
 
     /**
      * 加密
-     * @param seed
-     * @param cleartext
-     * @return
+     * @param seed 密钥
+     * @param cleartext 明文
+     * @return 密文
      * @throws Exception
      */
     public static String encrypt(String seed, String cleartext) throws Exception {
@@ -24,9 +24,9 @@ public class AESUtil {
 
     /**
      * 解密
-     * @param seed
-     * @param encrypted
-     * @return
+     * @param seed 密钥
+     * @param encrypted 密文
+     * @return 明文
      * @throws Exception
      */
     public static String decrypt(String seed, String encrypted) throws Exception {

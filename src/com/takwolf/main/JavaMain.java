@@ -29,5 +29,5 @@ public class JavaMain {
         System.out.println(strAes + " -> " + AESUtil.decrypt(key, strAes));
         System.out.println(strDes + " -> " + DES3Util.decrypt(key, strDes));
     }
-
+	
 }
