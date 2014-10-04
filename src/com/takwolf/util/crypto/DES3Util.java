@@ -7,6 +7,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import com.takwolf.util.coder.Base64;
+
 public class DES3Util {
 
     private final static String IV = "01234567";
@@ -28,7 +30,7 @@ public class DES3Util {
         IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, deskey, ips);
         byte[] encryptData = cipher.doFinal(plainText.getBytes(CHARSET));
-        return Base64.encode(encryptData);
+        return Base64.encodeFromBytes(encryptData);
     }
 
     /**
@@ -39,7 +41,7 @@ public class DES3Util {
      * @throws Exception
      */
     public static String encrypt(String secretKey, String plainText) throws Exception {
-    	return encrypt(IV, secretKey, plainText);
+        return encrypt(IV, secretKey, plainText);
     }
 
     /**
@@ -57,10 +59,10 @@ public class DES3Util {
         Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
         IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
-        byte[] decryptData = cipher.doFinal(Base64.decode(encryptText));
+        byte[] decryptData = cipher.doFinal(Base64.decodeToBytes(encryptText));
         return new String(decryptData, CHARSET);
     }
-    
+
     /**
      * 解密并使用默认向量
      * @param secretKey 密钥
@@ -69,7 +71,7 @@ public class DES3Util {
      * @throws Exception
      */
     public static String decrypt(String secretKey, String encryptText) throws Exception {
-    	return decrypt(IV, secretKey, encryptText);
+        return decrypt(IV, secretKey, encryptText);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.takwolf.main;
 
+import com.takwolf.util.coder.Base64;
 import com.takwolf.util.crypto.AESUtil;
 import com.takwolf.util.crypto.DES3Util;
 import com.takwolf.util.digest.MD2Util;
@@ -28,6 +29,10 @@ public class JavaMain {
         String strDes = DES3Util.encrypt(key, text);
         System.out.println(strAes + " -> " + AESUtil.decrypt(key, strAes));
         System.out.println(strDes + " -> " + DES3Util.decrypt(key, strDes));
+
+        System.out.println("----- Base64 -----");
+        System.out.println(Base64.encode("HelloWorld"));
+        System.out.println(Base64.decode("SGVsbG9Xb3JsZA=="));
     }
-	
+
 }
