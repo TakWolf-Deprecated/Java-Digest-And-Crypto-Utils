@@ -4,3 +4,4 @@
 *.iws
 .idea/
 out/
+#End with Intellij
