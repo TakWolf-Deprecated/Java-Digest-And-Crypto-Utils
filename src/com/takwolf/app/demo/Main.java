@@ -1,16 +1,11 @@
-package com.takwolf.main;
+package com.takwolf.app.demo;
 
 import com.takwolf.util.coder.Base64;
 import com.takwolf.util.crypto.AESUtil;
 import com.takwolf.util.crypto.DES3Util;
-import com.takwolf.util.digest.MD2Util;
-import com.takwolf.util.digest.MD5Util;
-import com.takwolf.util.digest.SHA1Util;
-import com.takwolf.util.digest.SHA256Util;
-import com.takwolf.util.digest.SHA384Util;
-import com.takwolf.util.digest.SHA512Util;
+import com.takwolf.util.digest.*;
 
-public class JavaMain {
+public class Main {
 
     public static void main(String[] args) throws Exception {
         System.out.println("----- Digest -----");
@@ -34,5 +29,4 @@ public class JavaMain {
         System.out.println(Base64.encode("HelloWorld"));
         System.out.println(Base64.decode("SGVsbG9Xb3JsZA=="));
     }
-
 }
