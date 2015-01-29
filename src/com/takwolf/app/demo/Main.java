@@ -10,12 +10,12 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("----- Digest -----");
         String plainText = "HelloWorld";
-        System.out.println("MD2:" + MD2Util.getDigest(plainText));
-        System.out.println("MD5:" + MD5Util.getDigest(plainText));
-        System.out.println("SHA1:" + SHA1Util.getDigest(plainText));
-        System.out.println("SHA256:" + SHA256Util.getDigest(plainText));
-        System.out.println("SHA384:" + SHA384Util.getDigest(plainText));
-        System.out.println("SHA512:" + SHA512Util.getDigest(plainText));
+        System.out.println("MD2:" + MD2.getMessageDigest(plainText));
+        System.out.println("MD5:" + MD5.getMessageDigest(plainText));
+        System.out.println("SHA1:" + SHA1.getMessageDigest(plainText));
+        System.out.println("SHA256:" + SHA256.getMessageDigest(plainText));
+        System.out.println("SHA384:" + SHA384.getMessageDigest(plainText));
+        System.out.println("SHA512:" + SHA512.getMessageDigest(plainText));
 
         System.out.println("----- Crypto -----");
         String text = "HelloWorld";
@@ -29,4 +29,5 @@ public class Main {
         System.out.println(Base64.encode("HelloWorld"));
         System.out.println(Base64.decode("SGVsbG9Xb3JsZA=="));
     }
+
 }
