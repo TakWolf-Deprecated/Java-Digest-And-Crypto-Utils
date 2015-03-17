@@ -1,8 +1,8 @@
 package com.takwolf.app.demo;
 
 import com.takwolf.util.coder.Base64;
-import com.takwolf.util.crypto.AESUtil;
-import com.takwolf.util.crypto.DES3Util;
+import com.takwolf.util.crypto.AES;
+import com.takwolf.util.crypto.DES3;
 import com.takwolf.util.digest.*;
 
 public class Main {
@@ -20,10 +20,10 @@ public class Main {
         System.out.println("----- Crypto -----");
         String text = "HelloWorld";
         String key = "19B38D18-6CA2-8619-2424-D307381AFA11";
-        String strAes = AESUtil.encrypt(key, text);
-        String strDes = DES3Util.encrypt(key, text);
-        System.out.println(strAes + " -> " + AESUtil.decrypt(key, strAes));
-        System.out.println(strDes + " -> " + DES3Util.decrypt(key, strDes));
+        String strAes = AES.encrypt(key, text);
+        String strDes = DES3.encrypt(key, text);
+        System.out.println(strAes + " -> " + AES.decrypt(key, strAes));
+        System.out.println(strDes + " -> " + DES3.decrypt(key, strDes));
 
         System.out.println("----- Base64 -----");
         System.out.println(Base64.encode("HelloWorld"));
