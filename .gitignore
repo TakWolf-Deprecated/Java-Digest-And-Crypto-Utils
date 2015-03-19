@@ -1,7 +1,0 @@
-# Intellij project files
-*.iml
-*.ipr
-*.iws
-.idea/
-out/
-#End with Intellij
