@@ -1,0 +1,6 @@
+rootProject.name = 'Java-Digest-And-Crypto-Utils'
+
+include 'app'
+
+include 'digest-and-crypto-utils'
+
