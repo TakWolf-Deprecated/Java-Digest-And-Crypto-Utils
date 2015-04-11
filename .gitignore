@@ -4,4 +4,5 @@
 *.iws
 .idea/
 out/
+/build
 #End with Intellij
