@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.takwolf.util.crypto;
+package com.takwolf.util.codec;
 
 import java.security.SecureRandom;
 

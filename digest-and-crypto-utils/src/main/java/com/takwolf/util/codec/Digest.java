@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.takwolf.util.digest;
+package com.takwolf.util.codec;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
