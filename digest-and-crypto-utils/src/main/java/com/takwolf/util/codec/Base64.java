@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.takwolf.util.coder;
+package com.takwolf.util.codec;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
