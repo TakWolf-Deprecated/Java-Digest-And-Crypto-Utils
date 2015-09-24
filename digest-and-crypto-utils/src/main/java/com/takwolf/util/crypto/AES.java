@@ -58,24 +58,21 @@ public class AES {
         sr.setSeed(seed);
         kgen.init(128, sr); // 192 and 256 bits may not be available
         SecretKey skey = kgen.generateKey();
-        byte[] raw = skey.getEncoded();
-        return raw;
+        return skey.getEncoded();
     }
 
     private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] encrypted = cipher.doFinal(clear);
-        return encrypted;
+        return cipher.doFinal(clear);
     }
 
     private static byte[] decrypt(byte[] raw, byte[] encrypted) throws Exception {
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
+        return cipher.doFinal(encrypted);
     }
 
     public static String toHex(String txt) {
@@ -100,8 +97,8 @@ public class AES {
             return "";
         }
         StringBuffer result = new StringBuffer(2*buf.length);
-        for (int i = 0; i < buf.length; i++) {
-            appendHex(result, buf[i]);
+        for (byte aBuf : buf) {
+            appendHex(result, aBuf);
         }
         return result.toString();
     }
