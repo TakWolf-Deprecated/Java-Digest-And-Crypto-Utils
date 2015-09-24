@@ -19,19 +19,19 @@ package com.takwolf.app.demo;
 import com.takwolf.util.coder.Base64;
 import com.takwolf.util.crypto.AES;
 import com.takwolf.util.crypto.DES3;
-import com.takwolf.util.digest.*;
+import com.takwolf.util.digest.Digest;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         System.out.println("----- Digest -----");
         String plainText = "HelloWorld";
-        System.out.println("MD2:" + MD2.getMessageDigest(plainText));
-        System.out.println("MD5:" + MD5.getMessageDigest(plainText));
-        System.out.println("SHA1:" + SHA1.getMessageDigest(plainText));
-        System.out.println("SHA256:" + SHA256.getMessageDigest(plainText));
-        System.out.println("SHA384:" + SHA384.getMessageDigest(plainText));
-        System.out.println("SHA512:" + SHA512.getMessageDigest(plainText));
+        System.out.println("MD2:" + Digest.MD2.getMessage(plainText));
+        System.out.println("MD5:" + Digest.MD5.getMessage(plainText));
+        System.out.println("SHA1:" + Digest.SHA1.getMessage(plainText));
+        System.out.println("SHA256:" + Digest.SHA256.getMessage(plainText));
+        System.out.println("SHA384:" + Digest.SHA384.getMessage(plainText));
+        System.out.println("SHA512:" + Digest.SHA512.getMessage(plainText));
 
         System.out.println("----- Crypto -----");
         String text = "HelloWorld";
