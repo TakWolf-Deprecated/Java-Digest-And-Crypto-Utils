@@ -1,7 +1,9 @@
 apply plugin: 'java'
 
+group 'com.takwolf'
+version '1.0.0'
+
 sourceCompatibility = 1.5
-version = '1.0'
 
 repositories {
     mavenCentral()

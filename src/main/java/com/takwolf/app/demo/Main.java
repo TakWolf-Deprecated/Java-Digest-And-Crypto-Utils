@@ -16,8 +16,8 @@
 
 package com.takwolf.app.demo;
 
-import com.takwolf.util.codec.Base64;
 import com.takwolf.util.codec.AES;
+import com.takwolf.util.codec.Base64;
 import com.takwolf.util.codec.DES3;
 import com.takwolf.util.codec.Digest;
 
