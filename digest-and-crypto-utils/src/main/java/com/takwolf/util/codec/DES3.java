@@ -16,12 +16,11 @@
 
 package com.takwolf.util.codec;
 
-import java.security.Key;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import java.security.Key;
 
 public class DES3 {
 
@@ -30,7 +29,8 @@ public class DES3 {
 
     /**
      * 加密
-     * @param iv 加密向量
+     *
+     * @param iv        加密向量
      * @param secretKey 密钥
      * @param plainText 原文
      * @return 密文
@@ -49,6 +49,7 @@ public class DES3 {
 
     /**
      * 加密并使用默认向量
+     *
      * @param secretKey 密钥
      * @param plainText 原文
      * @return 密文
@@ -60,8 +61,9 @@ public class DES3 {
 
     /**
      * 解密
-     * @param iv 向量
-     * @param secretKey 密钥
+     *
+     * @param iv          向量
+     * @param secretKey   密钥
      * @param encryptText 密文
      * @return 原文
      * @throws Exception
@@ -79,7 +81,8 @@ public class DES3 {
 
     /**
      * 解密并使用默认向量
-     * @param secretKey 密钥
+     *
+     * @param secretKey   密钥
      * @param encryptText 密文
      * @return 原文
      * @throws Exception

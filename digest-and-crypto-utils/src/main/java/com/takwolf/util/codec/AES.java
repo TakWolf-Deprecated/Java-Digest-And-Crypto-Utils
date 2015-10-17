@@ -16,18 +16,18 @@
 
 package com.takwolf.util.codec;
 
-import java.security.SecureRandom;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.SecureRandom;
 
 public class AES {
 
     /**
      * 加密
-     * @param seed 密钥
+     *
+     * @param seed      密钥
      * @param cleartext 明文
      * @return 密文
      * @throws Exception
@@ -40,7 +40,8 @@ public class AES {
 
     /**
      * 解密
-     * @param seed 密钥
+     *
+     * @param seed      密钥
      * @param encrypted 密文
      * @return 明文
      * @throws Exception
@@ -84,10 +85,10 @@ public class AES {
     }
 
     public static byte[] toByte(String hexString) {
-        int len = hexString.length()/2;
+        int len = hexString.length() / 2;
         byte[] result = new byte[len];
         for (int i = 0; i < len; i++) {
-            result[i] = Integer.valueOf(hexString.substring(2*i, 2*i+2), 16).byteValue();
+            result[i] = Integer.valueOf(hexString.substring(2 * i, 2 * i + 2), 16).byteValue();
         }
         return result;
     }
@@ -96,7 +97,7 @@ public class AES {
         if (buf == null) {
             return "";
         }
-        StringBuffer result = new StringBuffer(2*buf.length);
+        StringBuffer result = new StringBuffer(2 * buf.length);
         for (byte aBuf : buf) {
             appendHex(result, aBuf);
         }
@@ -106,7 +107,7 @@ public class AES {
     private static final String HEX = "0123456789ABCDEF";
 
     private static void appendHex(StringBuffer sb, byte b) {
-        sb.append(HEX.charAt((b>>4)&0x0f)).append(HEX.charAt(b&0x0f));
+        sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 
 }
