@@ -29,6 +29,8 @@ public final class Digest {
     public static final Digest SHA384 = new Digest("SHA-384");
     public static final Digest SHA512 = new Digest("SHA-512");
 
+    private static final Charset charset = Charset.forName("UTF-8");
+    
     private final MessageDigest md;
 
     private Digest(String algorithm) {
@@ -44,21 +46,19 @@ public final class Digest {
     }
 
     public byte[] getRaw(String input) {
-        return getRaw(input.getBytes(Charset.forName("UTF-8")));
+        return getRaw(input.getBytes(charset));
     }
 
     public String getMessage(byte[] input) {
-        byte[] buffer = getRaw(input);
-        StringBuilder sb = new StringBuilder(buffer.length * 2);
-        for (byte b : buffer) {
-            sb.append(Character.forDigit((b >>> 4) & 15, 16));
-            sb.append(Character.forDigit(b & 15, 16));
+        StringBuilder sb = new StringBuilder();
+        for (byte b : getRaw(input)) {
+            sb.append(String.format("%02x", 0xFF & b));
         }
         return sb.toString();
     }
 
     public String getMessage(String input) {
-        return getMessage(input.getBytes(Charset.forName("UTF-8")));
+        return getMessage(input.getBytes(charset));
     }
 
 }
