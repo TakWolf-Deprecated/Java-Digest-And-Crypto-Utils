@@ -21,6 +21,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import java.security.Key;
+import java.util.Base64;
 
 public class DES3 {
 
@@ -44,7 +45,7 @@ public class DES3 {
         IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, deskey, ips);
         byte[] encryptData = cipher.doFinal(plainText.getBytes(CHARSET));
-        return Base64.encodeFromBytes(encryptData);
+        return Base64.getEncoder().encodeToString(encryptData);
     }
 
     /**
@@ -75,7 +76,7 @@ public class DES3 {
         Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
         IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
-        byte[] decryptData = cipher.doFinal(Base64.decodeToBytes(encryptText));
+        byte[] decryptData = cipher.doFinal(Base64.getDecoder().decode(encryptText));
         return new String(decryptData, CHARSET);
     }
 
