@@ -29,36 +29,36 @@ public final class Digest {
     public static final Digest SHA384 = new Digest("SHA-384");
     public static final Digest SHA512 = new Digest("SHA-512");
 
-    private static final Charset CHARSET = Charset.forName("UTF-8");
-    
-    private final MessageDigest md;
+    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
+
+    private final String algorithm;
 
     private Digest(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public byte[] getRaw(byte[] data) {
         try {
-            md = MessageDigest.getInstance(algorithm);
+            return MessageDigest.getInstance(algorithm).digest(data);
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 
-    public byte[] getRaw(byte[] input) {
-        return md.digest(input);
+    public byte[] getRaw(String data) {
+        return getRaw(data.getBytes(CHARSET_UTF_8));
     }
 
-    public byte[] getRaw(String input) {
-        return getRaw(input.getBytes(CHARSET));
-    }
-
-    public String getMessage(byte[] input) {
+    public String getHex(byte[] data) {
         StringBuilder sb = new StringBuilder();
-        for (byte b : getRaw(input)) {
+        for (byte b : getRaw(data)) {
             sb.append(String.format("%02x", 0xFF & b));
         }
         return sb.toString();
     }
 
-    public String getMessage(String input) {
-        return getMessage(input.getBytes(CHARSET));
+    public String getHex(String data) {
+        return getHex(data.getBytes(CHARSET_UTF_8));
     }
 
 }

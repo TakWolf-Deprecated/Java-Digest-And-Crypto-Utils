@@ -37,7 +37,7 @@ public class Main {
 
         for (String key : mapMD5.keySet()) {
             String ccValue = mapMD5.get(key);
-            String myValue = Digest.MD5.getMessage(key);
+            String myValue = Digest.MD5.getHex(key);
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
@@ -57,7 +57,7 @@ public class Main {
 
         for (String key : mapSHA256.keySet()) {
             String ccValue = mapSHA256.get(key);
-            String myValue = Digest.SHA256.getMessage(key);
+            String myValue = Digest.SHA256.getHex(key);
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
@@ -77,7 +77,7 @@ public class Main {
 
         for (String key : mapSHA384.keySet()) {
             String ccValue = mapSHA384.get(key);
-            String myValue = Digest.SHA384.getMessage(key);
+            String myValue = Digest.SHA384.getHex(key);
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
@@ -97,7 +97,7 @@ public class Main {
 
         for (String key : mapSHA512.keySet()) {
             String ccValue = mapSHA512.get(key);
-            String myValue = Digest.SHA512.getMessage(key);
+            String myValue = Digest.SHA512.getHex(key);
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
