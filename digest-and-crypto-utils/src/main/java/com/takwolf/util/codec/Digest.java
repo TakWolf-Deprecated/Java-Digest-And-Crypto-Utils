@@ -41,7 +41,7 @@ public final class Digest {
         try {
             return MessageDigest.getInstance(algorithm).digest(data);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new AssertionError(e);
         }
     }
 
