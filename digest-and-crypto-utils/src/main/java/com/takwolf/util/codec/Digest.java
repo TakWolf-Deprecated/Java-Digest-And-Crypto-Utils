@@ -29,7 +29,7 @@ public final class Digest {
     public static final Digest SHA384 = new Digest("SHA-384");
     public static final Digest SHA512 = new Digest("SHA-512");
 
-    private static final Charset charset = Charset.forName("UTF-8");
+    private static final Charset CHARSET = Charset.forName("UTF-8");
     
     private final MessageDigest md;
 
@@ -46,7 +46,7 @@ public final class Digest {
     }
 
     public byte[] getRaw(String input) {
-        return getRaw(input.getBytes(charset));
+        return getRaw(input.getBytes(CHARSET));
     }
 
     public String getMessage(byte[] input) {
@@ -58,7 +58,7 @@ public final class Digest {
     }
 
     public String getMessage(String input) {
-        return getMessage(input.getBytes(charset));
+        return getMessage(input.getBytes(CHARSET));
     }
 
 }
