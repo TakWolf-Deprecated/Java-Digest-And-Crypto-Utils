@@ -6,7 +6,7 @@
 
 - 加密工具类有：DES3, AES
 
-- 编码工具类有：Base64
+Base64工具类在Android上需要替换为android.util.Base64实现
 
 ## Author ##
 
