@@ -19,9 +19,11 @@ package com.takwolf.util.codec;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
+import javax.crypto.spec.IvParameterSpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 public final class DESedeUtils {
 
@@ -37,8 +39,12 @@ public final class DESedeUtils {
         }
     }
 
-    public SecretKey generateSecret(byte[] secret) throws InvalidKeyException, InvalidKeySpecException {
-        return secretKeyFactory.generateSecret(new DESedeKeySpec(secret));
+    public SecretKey generateSecret(byte[] seed) throws InvalidKeyException, InvalidKeySpecException {
+        return secretKeyFactory.generateSecret(new DESedeKeySpec(seed));
+    }
+
+    public IvParameterSpec generateIV(byte[] seed) {
+        return new IvParameterSpec(Arrays.copyOf(seed, 8));
     }
 
 }

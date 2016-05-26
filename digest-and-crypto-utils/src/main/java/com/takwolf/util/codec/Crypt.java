@@ -39,12 +39,12 @@ public final class Crypt {
         this.ivLength = ivLength;
     }
 
-    public SecretKey generateSecret(byte[] secret) {
-        return new SecretKeySpec(Arrays.copyOf(secret, secretLength), algorithm);
+    public SecretKey generateSecret(byte[] seed) {
+        return new SecretKeySpec(Arrays.copyOf(seed, secretLength), algorithm);
     }
 
-    public IvParameterSpec generateIV(byte[] iv) {
-        return new IvParameterSpec(Arrays.copyOf(iv, ivLength));
+    public IvParameterSpec generateIV(byte[] seed) {
+        return new IvParameterSpec(Arrays.copyOf(seed, ivLength));
     }
 
     public byte[] encrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptException {
