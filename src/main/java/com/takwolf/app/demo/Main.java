@@ -16,15 +16,16 @@
 
 package com.takwolf.app.demo;
 
+import com.takwolf.util.codec.Crypt;
 import com.takwolf.util.codec.Digest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
+/*
         System.out.println("----- Digest MD5 -----");
 
         Map<String, String> mapMD5 = new HashMap<>();
@@ -41,7 +42,7 @@ public class Main {
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
-                throw new RuntimeException("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
+                throw new AssertionError("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
             }
         }
 
@@ -61,7 +62,7 @@ public class Main {
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
-                throw new RuntimeException("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
+                throw new AssertionError("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
             }
         }
 
@@ -81,7 +82,7 @@ public class Main {
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
-                throw new RuntimeException("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
+                throw new AssertionError("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
             }
         }
 
@@ -101,7 +102,48 @@ public class Main {
             if (ccValue.equalsIgnoreCase(myValue)) {
                 System.out.println(key + " : " + ccValue);
             } else {
-                throw new RuntimeException("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
+                throw new AssertionError("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
+            }
+        }
+*/
+
+        System.out.println("----- Crypt -----");
+
+        List<String> listText = new ArrayList<>();
+        listText.add("HelloWorld");
+        listText.add("TakWolf");
+        listText.add("Google");
+        listText.add("今天的风儿有点喧嚣");
+        listText.add("おはよう");
+        listText.add("http://takwolf.com");
+
+        String uuid = "58e00488-2014-4947-ab29-40cfa1f0d692";
+
+        System.out.println("----- AES -----");
+
+        String keyAES = Digest.SHA1.getHex(uuid).substring(0, 16);
+        String ivAES = Digest.MD5.getHex(uuid).substring(0, 16);
+
+        for (String text : listText) {
+            String crypt = Crypt.AES.encrypt(keyAES, ivAES, text);
+            if (Crypt.AES.decrypt(keyAES, ivAES, crypt).equals(text)) {
+                System.out.println(text + " : " + crypt);
+            } else {
+                throw new AssertionError("crypt error : " + text);
+            }
+        }
+
+        System.out.println("----- DESede -----");
+
+        String keyDESede = Digest.SHA1.getHex(uuid).substring(0, 24);
+        String ivDESede = Digest.MD5.getHex(uuid).substring(0, 8);
+
+        for (String text : listText) {
+            String crypt = Crypt.DESede.encrypt(keyDESede, ivDESede, text);
+            if (Crypt.DESede.decrypt(keyDESede, ivDESede, crypt).equals(text)) {
+                System.out.println(text + " : " + crypt);
+            } else {
+                throw new AssertionError("crypt error : " + text);
             }
         }
 
