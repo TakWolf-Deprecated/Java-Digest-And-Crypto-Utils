@@ -19,9 +19,9 @@ package com.takwolf.app.demo;
 import com.takwolf.util.codec.Crypt;
 import com.takwolf.util.codec.Digest;
 
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import java.nio.charset.Charset;
-import java.security.Key;
 import java.util.*;
 
 public class Main {
@@ -124,7 +124,7 @@ public class Main {
 
         System.out.println("----- AES -----");
 
-        Key keyAES = Crypt.AES.generateKey(raw);
+        SecretKey keyAES = Crypt.AES.generateSecret(raw);
         IvParameterSpec ivAES = Crypt.AES.generateIV(raw);
 
         for (byte[] data : listData) {
@@ -138,7 +138,7 @@ public class Main {
 
         System.out.println("----- DESede -----");
 
-        Key keyDESede = Crypt.DESede.generateKey(raw);
+        SecretKey keyDESede = Crypt.DESede.generateSecret(raw);
         IvParameterSpec ivDESede = Crypt.DESede.generateIV(raw);
 
         for (byte[] data : listData) {
