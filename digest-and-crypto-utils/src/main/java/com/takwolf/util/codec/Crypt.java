@@ -16,15 +16,11 @@
 
 package com.takwolf.util.codec;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
@@ -34,57 +30,57 @@ public final class Crypt {
     public static final Crypt DESede = new Crypt("DESede", 24, 8);
 
     private final String algorithm;
-    private final int keyLength;
+    private final int secretLength;
     private final int ivLength;
 
-    private Crypt(String algorithm, int keyLength, int ivLength) {
+    private Crypt(String algorithm, int secretLength, int ivLength) {
         this.algorithm = algorithm;
-        this.keyLength = keyLength;
+        this.secretLength = secretLength;
         this.ivLength = ivLength;
     }
 
-    public Key generateKey(byte[] key) {
-        return new SecretKeySpec(Arrays.copyOf(key, keyLength), algorithm);
+    public SecretKey generateSecret(byte[] secret) {
+        return new SecretKeySpec(Arrays.copyOf(secret, secretLength), algorithm);
     }
 
     public IvParameterSpec generateIV(byte[] iv) {
         return new IvParameterSpec(Arrays.copyOf(iv, ivLength));
     }
 
-    public byte[] encrypt(Key key, IvParameterSpec iv, byte[] data) throws CryptException {
+    public byte[] encrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+            cipher.init(Cipher.ENCRYPT_MODE, secret, iv);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new CryptException("Encrypt error", e);
         }
     }
 
-    public byte[] encrypt(Key key, byte[] data) throws CryptException {
+    public byte[] encrypt(SecretKey secret, byte[] data) throws CryptException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
+            cipher.init(Cipher.ENCRYPT_MODE, secret);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new CryptException("Encrypt error", e);
         }
     }
 
-    public byte[] decrypt(Key key, IvParameterSpec iv, byte[] data) throws CryptException {
+    public byte[] decrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, key, iv);
+            cipher.init(Cipher.DECRYPT_MODE, secret, iv);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new CryptException("Decrypt error", e);
         }
     }
 
-    public byte[] decrypt(Key key, byte[] data) throws CryptException {
+    public byte[] decrypt(SecretKey secret, byte[] data) throws CryptException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, key);
+            cipher.init(Cipher.DECRYPT_MODE, secret);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new CryptException("Decrypt error", e);
