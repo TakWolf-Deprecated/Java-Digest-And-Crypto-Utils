@@ -28,38 +28,45 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-public final class AES {
+public final class Crypt {
 
-    private AES() {}
+    public static final Crypt AES = new Crypt("AES");
+    public static final Crypt DESede = new Crypt("DESede");
 
     private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
 
-    public static String encrypt(String key, String iv, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), "AES");
+    private final String algorithm;
+
+    private Crypt(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public String encrypt(String key, String iv, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(CHARSET_UTF_8));
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
         return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes(CHARSET_UTF_8)));
     }
 
-    public static String encrypt(String key, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), "AES");
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+    public String encrypt(String key, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
+        Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
         return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes(CHARSET_UTF_8)));
     }
 
-    public static String decrypt(String key, String iv, String data) throws InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), "AES");
+    public String decrypt(String key, String iv, String data) throws InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(CHARSET_UTF_8));
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
         return new String(cipher.doFinal(Base64.getDecoder().decode(data)), CHARSET_UTF_8);
     }
 
-    public static String decrypt(String key, String data) throws InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), "AES");
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+    public String decrypt(String key, String data) throws InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
+        Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
         return new String(cipher.doFinal(Base64.getDecoder().decode(data)), CHARSET_UTF_8);
     }

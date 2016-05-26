@@ -16,80 +16,59 @@
 
 package com.takwolf.util.codec;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKeyFactory;
+import javax.crypto.*;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
-public class DES3 {
+public final class DES3 {
 
-    private static final String IV = "01234567";
-    private static final String CHARSET = "utf-8";
+    private DES3() {}
 
-    /**
-     * 加密
-     *
-     * @param iv        加密向量
-     * @param secretKey 密钥
-     * @param plainText 原文
-     * @return 密文
-     * @throws Exception
-     */
-    public static String encrypt(String iv, String secretKey, String plainText) throws Exception {
-        DESedeKeySpec spec = new DESedeKeySpec(secretKey.getBytes());
-        SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
-        Key deskey = keyfactory.generateSecret(spec);
-        Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
-        IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
-        cipher.init(Cipher.ENCRYPT_MODE, deskey, ips);
-        byte[] encryptData = cipher.doFinal(plainText.getBytes(CHARSET));
-        return Base64.getEncoder().encodeToString(encryptData);
+    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
+
+    public static String encrypt(String key, String iv, String data) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException {
+        DESedeKeySpec deSedeKeySpec = new DESedeKeySpec(key.getBytes(CHARSET_UTF_8));
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
+        Key desKey = secretKeyFactory.generateSecret(deSedeKeySpec);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(CHARSET_UTF_8));
+        Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, desKey, ivParameterSpec);
+        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes(CHARSET_UTF_8)));
     }
 
-    /**
-     * 加密并使用默认向量
-     *
-     * @param secretKey 密钥
-     * @param plainText 原文
-     * @return 密文
-     * @throws Exception
-     */
-    public static String encrypt(String secretKey, String plainText) throws Exception {
-        return encrypt(IV, secretKey, plainText);
+    public static String encrypt(String key, String data) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException {
+        DESedeKeySpec deSedeKeySpec = new DESedeKeySpec(key.getBytes(CHARSET_UTF_8));
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
+        Key desKey = secretKeyFactory.generateSecret(deSedeKeySpec);
+        Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, desKey);
+        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes(CHARSET_UTF_8)));
     }
 
-    /**
-     * 解密
-     *
-     * @param iv          向量
-     * @param secretKey   密钥
-     * @param encryptText 密文
-     * @return 原文
-     * @throws Exception
-     */
-    public static String decrypt(String iv, String secretKey, String encryptText) throws Exception {
-        DESedeKeySpec spec = new DESedeKeySpec(secretKey.getBytes());
-        SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
-        Key deskey = keyfactory.generateSecret(spec);
-        Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
-        IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
-        cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
-        byte[] decryptData = cipher.doFinal(Base64.getDecoder().decode(encryptText));
-        return new String(decryptData, CHARSET);
+    public static String decrypt(String key, String iv, String data) throws BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
+        DESedeKeySpec deSedeKeySpec = new DESedeKeySpec(key.getBytes(CHARSET_UTF_8));
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
+        Key desKey = secretKeyFactory.generateSecret(deSedeKeySpec);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(CHARSET_UTF_8));
+        Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, desKey, ivParameterSpec);
+        return new String(cipher.doFinal(Base64.getDecoder().decode(data)), CHARSET_UTF_8);
     }
 
-    /**
-     * 解密并使用默认向量
-     *
-     * @param secretKey   密钥
-     * @param encryptText 密文
-     * @return 原文
-     * @throws Exception
-     */
-    public static String decrypt(String secretKey, String encryptText) throws Exception {
-        return decrypt(IV, secretKey, encryptText);
+    public static String decrypt(String key, String data) throws BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
+        DESedeKeySpec deSedeKeySpec = new DESedeKeySpec(key.getBytes(CHARSET_UTF_8));
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
+        Key desKey = secretKeyFactory.generateSecret(deSedeKeySpec);
+        Cipher cipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, desKey);
+        return new String(cipher.doFinal(Base64.getDecoder().decode(data)), CHARSET_UTF_8);
     }
 
 }
