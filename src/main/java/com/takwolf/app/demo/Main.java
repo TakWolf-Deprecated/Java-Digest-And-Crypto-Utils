@@ -19,13 +19,17 @@ package com.takwolf.app.demo;
 import com.takwolf.util.codec.Crypt;
 import com.takwolf.util.codec.Digest;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.crypto.spec.IvParameterSpec;
+import java.nio.charset.Charset;
+import java.security.Key;
+import java.util.*;
 
 public class Main {
 
+    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
+
     public static void main(String[] args) throws Exception {
-/*
+
         System.out.println("----- Digest MD5 -----");
 
         Map<String, String> mapMD5 = new HashMap<>();
@@ -105,45 +109,44 @@ public class Main {
                 throw new AssertionError("digest error : " + key + "\nc : " + ccValue + "\nm : " + myValue);
             }
         }
-*/
 
         System.out.println("----- Crypt -----");
 
-        List<String> listText = new ArrayList<>();
-        listText.add("HelloWorld");
-        listText.add("TakWolf");
-        listText.add("Google");
-        listText.add("今天的风儿有点喧嚣");
-        listText.add("おはよう");
-        listText.add("http://takwolf.com");
+        List<byte[]> listData = new ArrayList<>();
+        listData.add("HelloWorld".getBytes(CHARSET_UTF_8));
+        listData.add("TakWolf".getBytes(CHARSET_UTF_8));
+        listData.add("Google".getBytes(CHARSET_UTF_8));
+        listData.add("今天的风儿有点喧嚣".getBytes(CHARSET_UTF_8));
+        listData.add("おはよう".getBytes(CHARSET_UTF_8));
+        listData.add("http://takwolf.com".getBytes(CHARSET_UTF_8));
 
-        String uuid = "58e00488-2014-4947-ab29-40cfa1f0d692";
+        byte[] raw = Digest.SHA256.getRaw("58e00488-2014-4947-ab29-40cfa1f0d692");
 
         System.out.println("----- AES -----");
 
-        String keyAES = Digest.SHA1.getHex(uuid).substring(0, 16);
-        String ivAES = Digest.MD5.getHex(uuid).substring(0, 16);
+        Key keyAES = Crypt.AES.generateKey(raw);
+        IvParameterSpec ivAES = Crypt.AES.generateIV(raw);
 
-        for (String text : listText) {
-            String crypt = Crypt.AES.encrypt(keyAES, ivAES, text);
-            if (Crypt.AES.decrypt(keyAES, ivAES, crypt).equals(text)) {
-                System.out.println(text + " : " + crypt);
+        for (byte[] data : listData) {
+            byte[] crypt = Crypt.AES.encrypt(keyAES, ivAES, data);
+            if (Arrays.equals(Crypt.AES.decrypt(keyAES, ivAES, crypt), data)) {
+                System.out.println(new String(data, CHARSET_UTF_8) + " : " + Base64.getEncoder().encodeToString(crypt));
             } else {
-                throw new AssertionError("crypt error : " + text);
+                throw new AssertionError("crypt error : " + new String(data, CHARSET_UTF_8));
             }
         }
 
         System.out.println("----- DESede -----");
 
-        String keyDESede = Digest.SHA1.getHex(uuid).substring(0, 24);
-        String ivDESede = Digest.MD5.getHex(uuid).substring(0, 8);
+        Key keyDESede = Crypt.DESede.generateKey(raw);
+        IvParameterSpec ivDESede = Crypt.DESede.generateIV(raw);
 
-        for (String text : listText) {
-            String crypt = Crypt.DESede.encrypt(keyDESede, ivDESede, text);
-            if (Crypt.DESede.decrypt(keyDESede, ivDESede, crypt).equals(text)) {
-                System.out.println(text + " : " + crypt);
+        for (byte[] data : listData) {
+            byte[] crypt = Crypt.DESede.encrypt(keyDESede, ivDESede, data);
+            if (Arrays.equals(Crypt.DESede.decrypt(keyDESede, ivDESede, crypt), data)) {
+                System.out.println(new String(data, CHARSET_UTF_8) + " : " + Base64.getEncoder().encodeToString(crypt));
             } else {
-                throw new AssertionError("crypt error : " + text);
+                throw new AssertionError("crypt error : " + new String(data, CHARSET_UTF_8));
             }
         }
 

@@ -22,53 +22,81 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.util.Arrays;
 
 public final class Crypt {
 
-    public static final Crypt AES = new Crypt("AES");
-    public static final Crypt DESede = new Crypt("DESede");
-
-    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
+    public static final Crypt AES = new Crypt("AES", 16, 16);
+    public static final Crypt DESede = new Crypt("DESede", 24, 8);
 
     private final String algorithm;
+    private final int keyLength;
+    private final int ivLength;
 
-    private Crypt(String algorithm) {
+    private Crypt(String algorithm, int keyLength, int ivLength) {
         this.algorithm = algorithm;
+        this.keyLength = keyLength;
+        this.ivLength = ivLength;
     }
 
-    public String encrypt(String key, String iv, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(CHARSET_UTF_8));
-        Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
-        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes(CHARSET_UTF_8)));
+    public Key generateKey(byte[] key) {
+        return new SecretKeySpec(Arrays.copyOf(key, keyLength), algorithm);
     }
 
-    public String encrypt(String key, String data) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
-        Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        return Base64.getEncoder().encodeToString(cipher.doFinal(data.getBytes(CHARSET_UTF_8)));
+    public IvParameterSpec generateIV(byte[] iv) {
+        return new IvParameterSpec(Arrays.copyOf(iv, ivLength));
     }
 
-    public String decrypt(String key, String iv, String data) throws InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes(CHARSET_UTF_8));
-        Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
-        return new String(cipher.doFinal(Base64.getDecoder().decode(data)), CHARSET_UTF_8);
+    public byte[] encrypt(Key key, IvParameterSpec iv, byte[] data) throws CryptException {
+        try {
+            Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+            return cipher.doFinal(data);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new CryptException("Encrypt error", e);
+        }
     }
 
-    public String decrypt(String key, String data) throws InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(CHARSET_UTF_8), algorithm);
-        Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-        return new String(cipher.doFinal(Base64.getDecoder().decode(data)), CHARSET_UTF_8);
+    public byte[] encrypt(Key key, byte[] data) throws CryptException {
+        try {
+            Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            return cipher.doFinal(data);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new CryptException("Encrypt error", e);
+        }
+    }
+
+    public byte[] decrypt(Key key, IvParameterSpec iv, byte[] data) throws CryptException {
+        try {
+            Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, iv);
+            return cipher.doFinal(data);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new CryptException("Decrypt error", e);
+        }
+    }
+
+    public byte[] decrypt(Key key, byte[] data) throws CryptException {
+        try {
+            Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            return cipher.doFinal(data);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new CryptException("Decrypt error", e);
+        }
+    }
+
+    public static class CryptException extends Exception {
+
+        public CryptException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
     }
 
 }
