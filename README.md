@@ -4,7 +4,7 @@
 
 - 摘要工具类有：MD2, MD5, SHA1, SHA256, SHA384, SHA512
 
-- 加密工具类有：DES3, AES
+- 加密工具类有：AES, DESede
 
 Base64工具类在Android上需要替换为android.util.Base64实现
 

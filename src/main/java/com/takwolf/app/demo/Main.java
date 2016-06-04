@@ -16,7 +16,7 @@
 
 package com.takwolf.app.demo;
 
-import com.takwolf.util.codec.Crypt;
+import com.takwolf.util.codec.Crypto;
 import com.takwolf.util.codec.Digest;
 
 import javax.crypto.SecretKey;
@@ -110,7 +110,7 @@ public class Main {
             }
         }
 
-        System.out.println("----- Crypt -----");
+        System.out.println("----- Crypto -----");
 
         List<byte[]> listData = new ArrayList<>();
         listData.add("HelloWorld".getBytes(CHARSET_UTF_8));
@@ -124,12 +124,12 @@ public class Main {
 
         System.out.println("----- AES -----");
 
-        SecretKey keyAES = Crypt.AES.generateSecret(raw);
-        IvParameterSpec ivAES = Crypt.AES.generateIV(raw);
+        SecretKey keyAES = Crypto.AES.generateSecret(raw);
+        IvParameterSpec ivAES = Crypto.AES.generateIV(raw);
 
         for (byte[] data : listData) {
-            byte[] crypt = Crypt.AES.encrypt(keyAES, ivAES, data);
-            if (Arrays.equals(Crypt.AES.decrypt(keyAES, ivAES, crypt), data)) {
+            byte[] crypt = Crypto.AES.encrypt(keyAES, ivAES, data);
+            if (Arrays.equals(Crypto.AES.decrypt(keyAES, ivAES, crypt), data)) {
                 System.out.println(new String(data, CHARSET_UTF_8) + " : " + Base64.getEncoder().encodeToString(crypt));
             } else {
                 throw new AssertionError("crypt error : " + new String(data, CHARSET_UTF_8));
@@ -138,12 +138,12 @@ public class Main {
 
         System.out.println("----- DESede -----");
 
-        SecretKey keyDESede = Crypt.DESede.generateSecret(raw);
-        IvParameterSpec ivDESede = Crypt.DESede.generateIV(raw);
+        SecretKey keyDESede = Crypto.DESede.generateSecret(raw);
+        IvParameterSpec ivDESede = Crypto.DESede.generateIV(raw);
 
         for (byte[] data : listData) {
-            byte[] crypt = Crypt.DESede.encrypt(keyDESede, ivDESede, data);
-            if (Arrays.equals(Crypt.DESede.decrypt(keyDESede, ivDESede, crypt), data)) {
+            byte[] crypt = Crypto.DESede.encrypt(keyDESede, ivDESede, data);
+            if (Arrays.equals(Crypto.DESede.decrypt(keyDESede, ivDESede, crypt), data)) {
                 System.out.println(new String(data, CHARSET_UTF_8) + " : " + Base64.getEncoder().encodeToString(crypt));
             } else {
                 throw new AssertionError("crypt error : " + new String(data, CHARSET_UTF_8));
