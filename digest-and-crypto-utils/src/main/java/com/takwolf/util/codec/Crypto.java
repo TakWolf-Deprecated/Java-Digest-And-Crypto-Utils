@@ -47,49 +47,49 @@ public final class Crypto {
         return new IvParameterSpec(Arrays.copyOf(seed, ivLength));
     }
 
-    public byte[] encrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptException {
+    public byte[] encrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secret, iv);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptException("Encrypt error", e);
+            throw new CryptoException("Encrypt error", e);
         }
     }
 
-    public byte[] encrypt(SecretKey secret, byte[] data) throws CryptException {
+    public byte[] encrypt(SecretKey secret, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secret);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptException("Encrypt error", e);
+            throw new CryptoException("Encrypt error", e);
         }
     }
 
-    public byte[] decrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptException {
+    public byte[] decrypt(SecretKey secret, IvParameterSpec iv, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, secret, iv);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptException("Decrypt error", e);
+            throw new CryptoException("Decrypt error", e);
         }
     }
 
-    public byte[] decrypt(SecretKey secret, byte[] data) throws CryptException {
+    public byte[] decrypt(SecretKey secret, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, secret);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptException("Decrypt error", e);
+            throw new CryptoException("Decrypt error", e);
         }
     }
 
-    public static class CryptException extends Exception {
+    public static class CryptoException extends Exception {
 
-        public CryptException(String message, Throwable cause) {
+        public CryptoException(String message, Throwable cause) {
             super(message, cause);
         }
 
