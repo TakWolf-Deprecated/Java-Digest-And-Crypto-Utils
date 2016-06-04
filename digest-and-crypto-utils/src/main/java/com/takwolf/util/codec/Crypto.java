@@ -24,16 +24,16 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public final class Crypt {
+public final class Crypto {
 
-    public static final Crypt AES = new Crypt("AES", 16, 16);
-    public static final Crypt DESede = new Crypt("DESede", 24, 8);
+    public static final Crypto AES = new Crypto("AES", 16, 16);
+    public static final Crypto DESede = new Crypto("DESede", 24, 8);
 
     private final String algorithm;
     private final int secretLength;
     private final int ivLength;
 
-    private Crypt(String algorithm, int secretLength, int ivLength) {
+    private Crypto(String algorithm, int secretLength, int ivLength) {
         this.algorithm = algorithm;
         this.secretLength = secretLength;
         this.ivLength = ivLength;
