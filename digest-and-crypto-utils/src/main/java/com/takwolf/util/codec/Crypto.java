@@ -89,7 +89,7 @@ public final class Crypto {
 
     public static class CryptoException extends Exception {
 
-        public CryptoException(String message, Throwable cause) {
+        private CryptoException(String message, Throwable cause) {
             super(message, cause);
         }
 
