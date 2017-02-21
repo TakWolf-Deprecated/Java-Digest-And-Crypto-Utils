@@ -1,6 +1,5 @@
 package com.takwolf.digest;
 
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -12,8 +11,6 @@ public final class Digest {
     public static final Digest SHA256 = new Digest("SHA-256");
     public static final Digest SHA384 = new Digest("SHA-384");
     public static final Digest SHA512 = new Digest("SHA-512");
-
-    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
 
     private final String algorithm;
 
@@ -30,7 +27,7 @@ public final class Digest {
     }
 
     public byte[] getRaw(String data) {
-        return getRaw(data.getBytes(CHARSET_UTF_8));
+        return getRaw(data.getBytes());
     }
 
     public String getHex(byte[] data) {
@@ -42,7 +39,7 @@ public final class Digest {
     }
 
     public String getHex(String data) {
-        return getHex(data.getBytes(CHARSET_UTF_8));
+        return getHex(data.getBytes());
     }
 
 }
