@@ -6,11 +6,11 @@ import org.junit.Test;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class CryptoTest {
-
-    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
-    private static final byte[] KEY_RAW = "58e00488-2014-4947-ab29-40cfa1f0d692".getBytes(CHARSET_UTF_8);
+    
+    private static final byte[] KEY_RAW = "58e00488-2014-4947-ab29-40cfa1f0d692".getBytes(StandardCharsets.UTF_8);
     private static final String[] DATAS = new String[]{
             "HelloWorld",
             "TakWolf",
@@ -21,20 +21,20 @@ public class CryptoTest {
     };
 
     @Test
-    public void testAES() throws Crypto.CryptoException {
+    public void testAES() throws CryptoException {
         SecretKey key = Crypto.AES.generateSecret(KEY_RAW);
         IvParameterSpec iv = Crypto.AES.generateIV(KEY_RAW);
         for (String data : DATAS) {
-            Assert.assertEquals(data, new String(Crypto.AES.decrypt(key, iv, Crypto.AES.encrypt(key, iv, data.getBytes(CHARSET_UTF_8))), CHARSET_UTF_8));
+            Assert.assertEquals(data, new String(Crypto.AES.decrypt(key, iv, Crypto.AES.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
         }
     }
 
     @Test
-    public void testDESede() throws Crypto.CryptoException {
+    public void testDESede() throws CryptoException {
         SecretKey key = Crypto.DESede.generateSecret(KEY_RAW);
         IvParameterSpec iv = Crypto.DESede.generateIV(KEY_RAW);
         for (String data : DATAS) {
-            Assert.assertEquals(data, new String(Crypto.DESede.decrypt(key, iv, Crypto.DESede.encrypt(key, iv, data.getBytes(CHARSET_UTF_8))), CHARSET_UTF_8));
+            Assert.assertEquals(data, new String(Crypto.DESede.decrypt(key, iv, Crypto.DESede.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
         }
     }
 
