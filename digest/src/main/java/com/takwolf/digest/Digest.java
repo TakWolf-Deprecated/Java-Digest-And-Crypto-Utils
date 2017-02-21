@@ -5,13 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 public final class Digest {
 
-    public static final Digest MD2 = new Digest(Algorithm.MD2);
-    public static final Digest MD5 = new Digest(Algorithm.MD5);
-    public static final Digest SHA1 = new Digest(Algorithm.SHA1);
-    public static final Digest SHA256 = new Digest(Algorithm.SHA256);
-    public static final Digest SHA384 = new Digest(Algorithm.SHA384);
-    public static final Digest SHA512 = new Digest(Algorithm.SHA512);
-
     public enum Algorithm {
 
         MD2("MD2"),
@@ -40,7 +33,7 @@ public final class Digest {
 
     private final Algorithm algorithm;
 
-    private Digest(Algorithm algorithm) {
+    public Digest(Algorithm algorithm) {
         this.algorithm = algorithm;
     }
 
