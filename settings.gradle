@@ -1,1 +1,2 @@
-include 'digest-and-crypto-utils'
+include 'digest'
+include 'crypto'
