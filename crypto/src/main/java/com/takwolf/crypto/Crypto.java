@@ -71,12 +71,4 @@ public final class Crypto {
         }
     }
 
-    public static class CryptoException extends Exception {
-
-        private CryptoException(String message, Throwable cause) {
-            super(message, cause);
-        }
-
-    }
-
 }
