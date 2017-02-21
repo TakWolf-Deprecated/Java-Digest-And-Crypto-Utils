@@ -11,21 +11,15 @@ import java.util.Arrays;
 
 public final class DESedeUtils {
 
-    private DESedeUtils() {
-    }
+    private DESedeUtils() {}
 
-    private static final SecretKeyFactory secretKeyFactory;
-
-    static {
+    public SecretKey generateSecret(byte[] seed) throws CryptoException {
         try {
-            secretKeyFactory = SecretKeyFactory.getInstance("DESede");
-        } catch (NoSuchAlgorithmException e) {
-            throw new AssertionError(e);
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
+            return secretKeyFactory.generateSecret(new DESedeKeySpec(seed));
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new CryptoException(e);
         }
-    }
-
-    public SecretKey generateSecret(byte[] seed) throws InvalidKeyException, InvalidKeySpecException {
-        return secretKeyFactory.generateSecret(new DESedeKeySpec(seed));
     }
 
     public IvParameterSpec generateIV(byte[] seed) {
