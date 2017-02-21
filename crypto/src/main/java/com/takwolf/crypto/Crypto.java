@@ -37,7 +37,7 @@ public final class Crypto {
             cipher.init(Cipher.ENCRYPT_MODE, secret, iv);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptoException("Encrypt error", e);
+            throw new CryptoException(e);
         }
     }
 
@@ -47,7 +47,7 @@ public final class Crypto {
             cipher.init(Cipher.ENCRYPT_MODE, secret);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptoException("Encrypt error", e);
+            throw new CryptoException(e);
         }
     }
 
@@ -57,7 +57,7 @@ public final class Crypto {
             cipher.init(Cipher.DECRYPT_MODE, secret, iv);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptoException("Decrypt error", e);
+            throw new CryptoException(e);
         }
     }
 
@@ -67,7 +67,7 @@ public final class Crypto {
             cipher.init(Cipher.DECRYPT_MODE, secret);
             return cipher.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new CryptoException("Decrypt error", e);
+            throw new CryptoException(e);
         }
     }
 
