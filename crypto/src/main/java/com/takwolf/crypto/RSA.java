@@ -13,9 +13,13 @@ public final class RSA {
 
     private static final String ALGORITHM = "RSA";
 
+    /**
+     * 生成秘钥对
+     * 可以加密的数据长度为：keysize/8-11
+     */
     public static KeyPair generateKeyPair(int keysize) throws CryptoException {
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
             keyPairGenerator.initialize(keysize);
             return keyPairGenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
@@ -23,6 +27,9 @@ public final class RSA {
         }
     }
 
+    /**
+     * 包装私钥，符合 PKCS#8 规范
+     */
     public static PrivateKey generatePrivateKey(byte[] raw) throws CryptoException {
         try {
             PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(raw);
@@ -33,6 +40,9 @@ public final class RSA {
         }
     }
 
+    /**
+     * 包装公钥，符合 X.509 规范
+     */
     public static PublicKey generatePublicKey(byte[] raw) throws CryptoException {
         try {
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(raw);
@@ -43,44 +53,30 @@ public final class RSA {
         }
     }
 
-    public static byte[] encryptByPrivateKey(PrivateKey privateKey, byte[] data) throws CryptoException {
-        try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            return cipher.doFinal(data);
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
-            throw new CryptoException(e);
-        }
-    }
-
-    public static byte[] decryptByPrivateKey(PrivateKey privateKey, byte[] data) throws CryptoException {
-        try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            return cipher.doFinal(data);
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
-            throw new CryptoException(e);
-        }
-    }
-
-    public static byte[] encryptByPublicKey(PublicKey publicKey, byte[] data) throws CryptoException {
+    /**
+     * 公钥加密
+     */
+    public static byte[] encrypt(PublicKey publicKey, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return cipher.doFinal(data);
-        } catch (IllegalBlockSizeException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | BadPaddingException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new CryptoException(e);
         }
     }
 
-    public static byte[] decryptByPublicKey(PublicKey publicKey, byte[] data) throws CryptoException {
+    /**
+     * 私钥解密
+     */
+    public static byte[] decrypt(PrivateKey privateKey, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, publicKey);
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return cipher.doFinal(data);
-        } catch (IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException e) {
             throw new CryptoException(e);
         }
     }
-
+    
 }
