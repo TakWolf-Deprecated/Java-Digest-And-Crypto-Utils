@@ -27,7 +27,7 @@ public final class Crypto {
         return new SecretKeySpec(Arrays.copyOf(seed, secretLength), algorithm);
     }
 
-    public IvParameterSpec generateIV(byte[] seed) {
+    public IvParameterSpec generateIv(byte[] seed) {
         return new IvParameterSpec(Arrays.copyOf(seed, ivLength));
     }
 

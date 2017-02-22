@@ -22,7 +22,7 @@ public final class DESedeUtils {
         }
     }
 
-    public IvParameterSpec generateIV(byte[] seed) {
+    public IvParameterSpec generateIv(byte[] seed) {
         return new IvParameterSpec(Arrays.copyOf(seed, 8));
     }
 
