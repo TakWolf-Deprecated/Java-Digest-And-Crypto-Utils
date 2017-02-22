@@ -11,6 +11,32 @@ import java.security.spec.X509EncodedKeySpec;
 
 public final class RSA {
 
+    public enum SignatureAlgorithm {
+
+        MD2("MD2withRSA"),
+
+        MD5("MD5withRSA"),
+
+        SHA1("SHA1withRSA"),
+
+        SHA256("SHA256withRSA"),
+
+        SHA384("SHA384withRSA"),
+
+        SHA512("SHA512withRSA");
+
+        private final String value;
+
+        SignatureAlgorithm(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+
     private static final String ALGORITHM = "RSA";
 
     /**
@@ -78,5 +104,33 @@ public final class RSA {
             throw new CryptoException(e);
         }
     }
-    
+
+    /**
+     * 私钥签名
+     */
+    public static byte[] sign(SignatureAlgorithm signatureAlgorithm, PrivateKey privateKey, byte[] data) throws CryptoException {
+        try {
+            Signature signature = Signature.getInstance(signatureAlgorithm.getValue());
+            signature.initSign(privateKey);
+            signature.update(data);
+            return signature.sign();
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            throw new CryptoException(e);
+        }
+    }
+
+    /**
+     * 公钥校验
+     */
+    public static boolean verify(SignatureAlgorithm signatureAlgorithm, PublicKey publicKey, byte[] data, byte[] sign) throws CryptoException {
+        try {
+            Signature signature = Signature.getInstance(signatureAlgorithm.getValue());
+            signature.initVerify(publicKey);
+            signature.update(data);
+            return signature.verify(sign);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            throw new CryptoException(e);
+        }
+    }
+
 }
