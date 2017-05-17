@@ -6,6 +6,8 @@
 
 - 加密工具类有：AES, DESede, RSA
 
+有关对称加密的几种模式，请参考：http://www.jianshu.com/p/b63095c59361
+
 Base64工具类在Android上需要替换为android.util.Base64实现
 
 ## Author ##
