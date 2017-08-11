@@ -1,5 +1,6 @@
 package com.takwolf.digest;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -48,7 +49,7 @@ public final class Digest {
     }
 
     public byte[] getRaw(String data) {
-        return getRaw(data.getBytes());
+        return getRaw(data.getBytes(StandardCharsets.UTF_8));
     }
 
     public String getHex(byte[] data) {
@@ -60,7 +61,7 @@ public final class Digest {
     }
 
     public String getHex(String data) {
-        return getHex(data.getBytes());
+        return getHex(data.getBytes(StandardCharsets.UTF_8));
     }
 
 }

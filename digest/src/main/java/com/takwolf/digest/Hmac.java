@@ -4,6 +4,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -45,6 +46,10 @@ public final class Hmac {
         return new SecretKeySpec(seed, algorithm.getValue());
     }
 
+    public SecretKey generateSecret(String seed) {
+        return generateSecret(seed.getBytes(StandardCharsets.UTF_8));
+    }
+    
     public SecretKey generateSecret() {
         try {
             return KeyGenerator.getInstance(algorithm.getValue()).generateKey();
@@ -64,7 +69,7 @@ public final class Hmac {
     }
 
     public byte[] getRaw(SecretKey secret, String data) {
-        return getRaw(secret, data.getBytes());
+        return getRaw(secret, data.getBytes(StandardCharsets.UTF_8));
     }
 
     public String getHex(SecretKey secret, byte[] data) {
@@ -76,7 +81,7 @@ public final class Hmac {
     }
 
     public String getHex(SecretKey secret, String data) {
-        return getHex(secret, data.getBytes());
+        return getHex(secret, data.getBytes(StandardCharsets.UTF_8));
     }
 
 }
