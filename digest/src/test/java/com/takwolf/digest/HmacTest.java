@@ -1,6 +1,5 @@
 package com.takwolf.digest;
 
-import org.apache.commons.codec.digest.HmacUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,7 +33,7 @@ public final class HmacTest {
         Assert.assertEquals("a95c24ba15b2250a9ec8ada7471057b9e7a5a3d0", hmacSha1.getHex(secret, "http://takwolf.com"));
     }
 
-    // TODO 结果不匹配
+    // TODO 结果与在线工具不匹配
     @Test(expected = Throwable.class)
     public void testSHA224() {
         Hmac hmacSha224 = new Hmac(Hmac.Algorithm.SHA224);
@@ -59,26 +58,17 @@ public final class HmacTest {
         Assert.assertEquals("be12d49962858cb4874bb16cb59823672d2ff1127f2cc0f18d3e336a2d3019aa", hmacSha256.getHex(secret, "http://takwolf.com"));
     }
 
-    // TODO 结果不匹配
+    // TODO 结果与在线工具不匹配
     @Test
     public void testSHA384() {
         Hmac hmacSha384 = new Hmac(Hmac.Algorithm.SHA384);
         SecretKey secret = hmacSha384.generateSecret(KEY);
-        /*
-        Assert.assertEquals("0d4c4427150cdeca752e35026da1f5712c505d041baeba10a4bf3ae664e2c5f8e8c1293e153947be6371d7b07eb0e085", hmacSha384.getHex(secret, "HelloWorld"));
-        Assert.assertEquals("c84e1d9ff95b25a5aa1a9daf5915894424fe7312d8fc0dac08f2791316cc031d1f70fde15ae5e845dfba4201c93c2ae3", hmacSha384.getHex(secret, "TakWolf"));
-        Assert.assertEquals("95542eb6897561f74e52c6a34e47562479de9264aecfcf58d9d53de20b3174a06b915c5ae3b88a384138c0d0219a31b4", hmacSha384.getHex(secret, "Google"));
-        Assert.assertEquals("0926247e299e4b9981430db5b084e1163c4e107d086c3ce0ea055414e5c2f1764b13d2fbb55a884a31328946d14b4c4c", hmacSha384.getHex(secret, "今天的风儿有点喧嚣"));
-        Assert.assertEquals("ec4b10bfebcc461adf1a64f6586cb4e157f75811cae4e488cae5a1f4e3d3f9fc10d5d8c0d26c5c80675ca0f87bc99831", hmacSha384.getHex(secret, "おはよう"));
-        Assert.assertEquals("b282df37c167484b4a678621346aab3ff32364abbc522f8d8ea989ba6cc314976580791734330fbd5d30eb15cf1ba696", hmacSha384.getHex(secret, "http://takwolf.com"));
-        */
-        // TODO 因为结果不匹配，换成和 commons-codec 比较
-        Assert.assertEquals(hmacSha384.getHex(secret, "HelloWorld"), HmacUtils.hmacSha384Hex(KEY, "HelloWorld"));
-        Assert.assertEquals(hmacSha384.getHex(secret, "TakWolf"), HmacUtils.hmacSha384Hex(KEY, "TakWolf"));
-        Assert.assertEquals(hmacSha384.getHex(secret, "Google"), HmacUtils.hmacSha384Hex(KEY, "Google"));
-        Assert.assertEquals(hmacSha384.getHex(secret, "今天的风儿有点喧嚣"), HmacUtils.hmacSha384Hex(KEY, "今天的风儿有点喧嚣"));
-        Assert.assertEquals(hmacSha384.getHex(secret, "おはよう"), HmacUtils.hmacSha384Hex(KEY, "おはよう"));
-        Assert.assertEquals(hmacSha384.getHex(secret, "http://takwolf.com"), HmacUtils.hmacSha384Hex(KEY, "http://takwolf.com"));
+        Assert.assertEquals("d7219a35c8363ec85d11701ffc950f5e55b46ca856fb2883243ad9b98eb6ce5e5c3c61ce0ed31d1fcfdbb9c91ff1fdec", hmacSha384.getHex(secret, "HelloWorld"));
+        Assert.assertEquals("83415e6f1e3a92d071b599f1eba2f584cd651ceb16b4044b887c00ba5c0b2eefcc3b1e7379b69c6fcd8c555697dd8774", hmacSha384.getHex(secret, "TakWolf"));
+        Assert.assertEquals("6b4f26e36f11fcebc9004248f0f6e16f5933d6f625fab065d13fdb5489f1c4ef72508ec26cd5eb088ebd7b89217f797d", hmacSha384.getHex(secret, "Google"));
+        Assert.assertEquals("5d21900e990242f82b24834de88ef209c6e8b6435714ffcec1c92c0cccdc1c98e8b0a180b3ad29e219a17fa1e830f4f1", hmacSha384.getHex(secret, "今天的风儿有点喧嚣"));
+        Assert.assertEquals("49f23096f091740d1cb5da1ff59b2872c965957e2857f071d1da0709004aac04ed4d5be1955858e29bcd431dc1bd9eb1", hmacSha384.getHex(secret, "おはよう"));
+        Assert.assertEquals("745b4b82f2e0adaed40fe99b984aba551724b218b2dfb676753b3e910dc451c5c5b72850a0609a0317ac8b0e009e6102", hmacSha384.getHex(secret, "http://takwolf.com"));
     }
 
     @Test
