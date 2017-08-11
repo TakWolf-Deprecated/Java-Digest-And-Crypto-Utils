@@ -13,6 +13,8 @@ public final class Digest {
 
         SHA1("SHA-1"),
 
+        SHA224("SHA-224"),
+
         SHA256("SHA-256"),
 
         SHA384("SHA-384"),

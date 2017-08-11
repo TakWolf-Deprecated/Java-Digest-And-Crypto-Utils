@@ -41,6 +41,17 @@ public final class DigestTest {
     }
 
     @Test
+    public void testSHA224() {
+        Digest sha224 = new Digest(Digest.Algorithm.SHA224);
+        Assert.assertEquals("b07a0b24d54879214f2361e0a1ac320442fa4e53a0f607d126fbfb8a", sha224.getHex("HelloWorld".getBytes(StandardCharsets.UTF_8)));
+        Assert.assertEquals("c36d99bf1993e3174345fc067072b81efc6a18e8c4fc0a10641f8b42", sha224.getHex("TakWolf".getBytes(StandardCharsets.UTF_8)));
+        Assert.assertEquals("b84e52794c142b49fe92323cc27a68fc89b67ee05f6941120e8ac020", sha224.getHex("Google".getBytes(StandardCharsets.UTF_8)));
+        Assert.assertEquals("e6e5afe5fbfec476152a97581ebc6a671b3c8b20cfccc32fb8887b37", sha224.getHex("今天的风儿有点喧嚣".getBytes(StandardCharsets.UTF_8)));
+        Assert.assertEquals("979c3f609c2e16b25758fb6e483886b4e7b4073a2c62dc0f22144350", sha224.getHex("おはよう".getBytes(StandardCharsets.UTF_8)));
+        Assert.assertEquals("ae123552aec10e7be26eabad4ca5f11faa52346ac633d9aff19d1671", sha224.getHex("http://takwolf.com".getBytes(StandardCharsets.UTF_8)));
+    }
+
+    @Test
     public void testSHA256() {
         Digest sha256 = new Digest(Digest.Algorithm.SHA256);
         Assert.assertEquals("872e4e50ce9990d8b041330c47c9ddd11bec6b503ae9386a99da8584e9bb12c4", sha256.getHex("HelloWorld".getBytes(StandardCharsets.UTF_8)));
