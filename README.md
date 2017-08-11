@@ -2,13 +2,15 @@
 
 自用Java摘要加密工具类，兼容Android环境，目前包含有：
 
-- 摘要工具类有：MD2, MD5, SHA1, SHA256, SHA384, SHA512
+- 摘要工具类有：Digest、Hmac
 
-- 加密工具类有：AES, DESede, RSA
+- 加密工具类有：AES、DESede、RSA
 
 有关对称加密的几种模式，请参考：http://www.jianshu.com/p/b63095c59361
 
 Base64工具类在Android上需要替换为android.util.Base64实现
+
+在线验证工具：[http://tool.oschina.net/encrypt](http://tool.oschina.net/encrypt)
 
 ## Author ##
 
