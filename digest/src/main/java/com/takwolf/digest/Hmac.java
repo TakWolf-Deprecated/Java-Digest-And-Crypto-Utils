@@ -2,10 +2,10 @@ package com.takwolf.digest;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 public final class Hmac {
@@ -42,15 +42,15 @@ public final class Hmac {
         this.algorithm = algorithm;
     }
 
-    public SecretKey generateSecret(byte[] seed) {
+    public Key generateKey(byte[] seed) {
         return new SecretKeySpec(seed, algorithm.getValue());
     }
 
-    public SecretKey generateSecret(String seed) {
-        return generateSecret(seed.getBytes(StandardCharsets.UTF_8));
+    public Key generateKey(String seed) {
+        return generateKey(seed.getBytes(StandardCharsets.UTF_8));
     }
     
-    public SecretKey generateSecret() {
+    public Key generateKey() {
         try {
             return KeyGenerator.getInstance(algorithm.getValue()).generateKey();
         } catch (NoSuchAlgorithmException e) {
@@ -58,30 +58,30 @@ public final class Hmac {
         }
     }
 
-    public byte[] getRaw(SecretKey secret, byte[] data) {
+    public byte[] getRaw(Key key, byte[] data) {
         try {
             Mac mac = Mac.getInstance(algorithm.getValue());
-            mac.init(secret);
+            mac.init(key);
             return mac.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public byte[] getRaw(SecretKey secret, String data) {
-        return getRaw(secret, data.getBytes(StandardCharsets.UTF_8));
+    public byte[] getRaw(Key key, String data) {
+        return getRaw(key, data.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String getHex(SecretKey secret, byte[] data) {
+    public String getHex(Key key, byte[] data) {
         StringBuilder sb = new StringBuilder();
-        for (byte b : getRaw(secret, data)) {
+        for (byte b : getRaw(key, data)) {
             sb.append(String.format("%02x", b & 0xFF));
         }
         return sb.toString();
     }
 
-    public String getHex(SecretKey secret, String data) {
-        return getHex(secret, data.getBytes(StandardCharsets.UTF_8));
+    public String getHex(Key key, String data) {
+        return getHex(key, data.getBytes(StandardCharsets.UTF_8));
     }
 
 }

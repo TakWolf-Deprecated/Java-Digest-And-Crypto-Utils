@@ -3,9 +3,9 @@ package com.takwolf.crypto;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 
 public class CryptoTest {
     
@@ -21,7 +21,7 @@ public class CryptoTest {
 
     @Test
     public void testAES() throws CryptoException {
-        SecretKey key = Crypto.AES.generateSecret(KEY_RAW);
+        Key key = Crypto.AES.generateKey(KEY_RAW);
         IvParameterSpec iv = Crypto.AES.generateIv(KEY_RAW);
         for (String data : DATAS) {
             Assert.assertEquals(data, new String(Crypto.AES.decrypt(key, iv, Crypto.AES.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
@@ -30,7 +30,7 @@ public class CryptoTest {
 
     @Test
     public void testDESede() throws CryptoException {
-        SecretKey key = Crypto.DESede.generateSecret(KEY_RAW);
+        Key key = Crypto.DESede.generateKey(KEY_RAW);
         IvParameterSpec iv = Crypto.DESede.generateIv(KEY_RAW);
         for (String data : DATAS) {
             Assert.assertEquals(data, new String(Crypto.DESede.decrypt(key, iv, Crypto.DESede.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
