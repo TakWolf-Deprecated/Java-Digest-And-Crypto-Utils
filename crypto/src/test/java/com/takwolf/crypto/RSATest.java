@@ -34,9 +34,11 @@ public class RSATest {
     @Test
     public void testSignVerify() throws CryptoException {
         KeyPair keyPair = RSA.generateKeyPair(2048);
-        byte[] sign = RSA.sign(RSA.SignatureAlgorithm.SHA256, keyPair.getPrivate(), TEXT.getBytes(StandardCharsets.UTF_8));
-        boolean result = RSA.verify(RSA.SignatureAlgorithm.SHA256, keyPair.getPublic(), TEXT.getBytes(StandardCharsets.UTF_8), sign);
-        Assert.assertTrue(result);
+        for (RSA.SignatureAlgorithm signatureAlgorithm : RSA.SignatureAlgorithm.values()) {
+            byte[] sign = RSA.sign(signatureAlgorithm, keyPair.getPrivate(), TEXT.getBytes(StandardCharsets.UTF_8));
+            boolean result = RSA.verify(signatureAlgorithm, keyPair.getPublic(), TEXT.getBytes(StandardCharsets.UTF_8), sign);
+            Assert.assertTrue(result);
+        }
     }
 
 }
