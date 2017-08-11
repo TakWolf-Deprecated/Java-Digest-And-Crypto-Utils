@@ -52,7 +52,7 @@ public final class Digest {
     public String getHex(byte[] data) {
         StringBuilder sb = new StringBuilder();
         for (byte b : getRaw(data)) {
-            sb.append(String.format("%02x", 0xFF & b));
+            sb.append(String.format("%02x", b & 0xFF));
         }
         return sb.toString();
     }
