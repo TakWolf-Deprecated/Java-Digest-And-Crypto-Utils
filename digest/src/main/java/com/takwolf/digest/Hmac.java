@@ -49,7 +49,7 @@ public final class Hmac {
     public Key generateKey(String seed) {
         return generateKey(seed.getBytes(StandardCharsets.UTF_8));
     }
-    
+
     public Key generateKey() {
         try {
             return KeyGenerator.getInstance(algorithm.getValue()).generateKey();
