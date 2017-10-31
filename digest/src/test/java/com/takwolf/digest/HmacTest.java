@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.security.Key;
 
-public final class HmacTest {
+public class HmacTest {
 
     private static final String KEY = "58e00488-2014-4947-ab29-40cfa1f0d692";
 

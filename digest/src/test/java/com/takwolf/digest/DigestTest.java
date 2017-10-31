@@ -3,7 +3,7 @@ package com.takwolf.digest;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class DigestTest {
+public class DigestTest {
 
     @Test
     public void testMD2() {
