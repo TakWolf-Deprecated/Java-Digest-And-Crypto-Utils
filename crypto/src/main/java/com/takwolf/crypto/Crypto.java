@@ -15,6 +15,7 @@ import java.util.Arrays;
 public final class Crypto {
 
     public static final Crypto AES = new Crypto("AES", 16, 16);
+    public static final Crypto DES = new Crypto("DES", 8, 8);
     public static final Crypto DESede = new Crypto("DESede", 24, 8);
 
     private final String algorithm;
