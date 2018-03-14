@@ -13,7 +13,7 @@ public final class DESedeUtils {
 
     private DESedeUtils() {}
 
-    public Key generateKey(byte[] seed) throws CryptoException {
+    public static Key generateKey(byte[] seed) throws CryptoException {
         try {
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
             return secretKeyFactory.generateSecret(new DESedeKeySpec(seed));
@@ -22,7 +22,7 @@ public final class DESedeUtils {
         }
     }
 
-    public IvParameterSpec generateIv(byte[] seed) {
+    public static IvParameterSpec generateIv(byte[] seed) {
         return new IvParameterSpec(Arrays.copyOf(seed, 8));
     }
 
