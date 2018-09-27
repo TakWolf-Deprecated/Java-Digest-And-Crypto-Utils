@@ -7,7 +7,7 @@ import javax.crypto.spec.IvParameterSpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
-public class CryptoTest {
+public class CryptoTests {
 
     private static final byte[] KEY_RAW = "58e00488-2014-4947-ab29-40cfa1f0d692".getBytes(StandardCharsets.UTF_8);
     private static final String[] DATAS = new String[] {

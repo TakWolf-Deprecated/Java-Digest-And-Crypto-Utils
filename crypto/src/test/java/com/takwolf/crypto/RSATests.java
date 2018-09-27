@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class RSATest {
+public class RSATests {
 
     private static final String TEXT = "Hello World!";
 
