@@ -10,33 +10,58 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
 
 public final class Crypto {
 
-    public static final Crypto AES = new Crypto("AES", 16, 16);
-    public static final Crypto DES = new Crypto("DES", 8, 8);
-    public static final Crypto DESede = new Crypto("DESede", 24, 8);
+    public enum Algorithm {
 
-    private final String algorithm;
-    private final int keyLength;
-    private final int ivLength;
+        AES("AES", 16, 16),
 
-    private Crypto(String algorithm, int keyLength, int ivLength) {
+        DES("DES", 8, 8),
+
+        DESEDE("DESede", 24, 8);
+
+        private final String value;
+        private final int keyLength;
+        private final int ivLength;
+
+        Algorithm(String value, int keyLength, int ivLength) {
+            this.value = value;
+            this.keyLength = keyLength;
+            this.ivLength = ivLength;
+        }
+
+        public String value() {
+            return value;
+        }
+
+        public int keyLength() {
+            return keyLength;
+        }
+
+        public int ivLength() {
+            return ivLength;
+        }
+
+    }
+
+    private final Algorithm algorithm;
+
+    public Crypto(Algorithm algorithm) {
         this.algorithm = algorithm;
-        this.keyLength = keyLength;
-        this.ivLength = ivLength;
     }
 
     public Key generateKey(byte[] seed) {
-        return new SecretKeySpec(Arrays.copyOf(seed, keyLength), algorithm);
+        return new SecretKeySpec(Arrays.copyOf(seed, algorithm.keyLength()), algorithm.value());
     }
 
-    public IvParameterSpec generateIv(byte[] seed) {
-        return new IvParameterSpec(Arrays.copyOf(seed, ivLength));
+    public AlgorithmParameterSpec generateIv(byte[] seed) {
+        return new IvParameterSpec(Arrays.copyOf(seed, algorithm.ivLength()));
     }
 
-    public byte[] encrypt(Key key, IvParameterSpec iv, byte[] data) throws CryptoException {
+    public byte[] encrypt(Key key, AlgorithmParameterSpec iv, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key, iv);
@@ -56,7 +81,7 @@ public final class Crypto {
         }
     }
 
-    public byte[] decrypt(Key key, IvParameterSpec iv, byte[] data) throws CryptoException {
+    public byte[] decrypt(Key key, AlgorithmParameterSpec iv, byte[] data) throws CryptoException {
         try {
             Cipher cipher = Cipher.getInstance(algorithm + "/CBC/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, key, iv);

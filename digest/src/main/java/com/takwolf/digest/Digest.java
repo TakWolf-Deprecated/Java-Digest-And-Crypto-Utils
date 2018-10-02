@@ -28,7 +28,7 @@ public final class Digest {
             this.value = value;
         }
 
-        public String getValue() {
+        public String value() {
             return value;
         }
 
@@ -42,7 +42,7 @@ public final class Digest {
 
     public byte[] getRaw(byte[] data) {
         try {
-            return MessageDigest.getInstance(algorithm.getValue()).digest(data);
+            return MessageDigest.getInstance(algorithm.value()).digest(data);
         } catch (NoSuchAlgorithmException e) {
             throw new AssertionError(e);
         }

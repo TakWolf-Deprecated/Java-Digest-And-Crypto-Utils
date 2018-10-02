@@ -30,7 +30,7 @@ public final class Hmac {
             this.value = value;
         }
 
-        public String getValue() {
+        public String value() {
             return value;
         }
 
@@ -43,7 +43,7 @@ public final class Hmac {
     }
 
     public Key generateKey(byte[] seed) {
-        return new SecretKeySpec(seed, algorithm.getValue());
+        return new SecretKeySpec(seed, algorithm.value());
     }
 
     public Key generateKey(String seed) {
@@ -52,7 +52,7 @@ public final class Hmac {
 
     public Key generateKey() {
         try {
-            return KeyGenerator.getInstance(algorithm.getValue()).generateKey();
+            return KeyGenerator.getInstance(algorithm.value()).generateKey();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +60,7 @@ public final class Hmac {
 
     public byte[] getRaw(Key key, byte[] data) {
         try {
-            Mac mac = Mac.getInstance(algorithm.getValue());
+            Mac mac = Mac.getInstance(algorithm.value());
             mac.init(key);
             return mac.doFinal(data);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {

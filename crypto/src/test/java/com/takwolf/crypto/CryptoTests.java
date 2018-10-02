@@ -3,9 +3,9 @@ package com.takwolf.crypto;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.crypto.spec.IvParameterSpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.spec.AlgorithmParameterSpec;
 
 public class CryptoTests {
 
@@ -21,19 +21,21 @@ public class CryptoTests {
 
     @Test
     public void testAES() throws CryptoException {
-        Key key = Crypto.AES.generateKey(KEY_RAW);
-        IvParameterSpec iv = Crypto.AES.generateIv(KEY_RAW);
+        Crypto aes = new Crypto(Crypto.Algorithm.AES);
+        Key key = aes.generateKey(KEY_RAW);
+        AlgorithmParameterSpec iv = aes.generateIv(KEY_RAW);
         for (String data : DATAS) {
-            Assert.assertEquals(data, new String(Crypto.AES.decrypt(key, iv, Crypto.AES.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
+            Assert.assertEquals(data, new String(aes.decrypt(key, iv, aes.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
         }
     }
 
     @Test
     public void testDESede() throws CryptoException {
-        Key key = Crypto.DESede.generateKey(KEY_RAW);
-        IvParameterSpec iv = Crypto.DESede.generateIv(KEY_RAW);
+        Crypto desede = new Crypto(Crypto.Algorithm.DESEDE);
+        Key key = desede.generateKey(KEY_RAW);
+        AlgorithmParameterSpec iv = desede.generateIv(KEY_RAW);
         for (String data : DATAS) {
-            Assert.assertEquals(data, new String(Crypto.DESede.decrypt(key, iv, Crypto.DESede.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
+            Assert.assertEquals(data, new String(desede.decrypt(key, iv, desede.encrypt(key, iv, data.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8));
         }
     }
 

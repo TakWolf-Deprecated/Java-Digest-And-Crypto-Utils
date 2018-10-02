@@ -1,10 +1,10 @@
 package com.takwolf.crypto;
 
+import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ public final class DESedeUtils {
 
     private DESedeUtils() {}
 
-    public static Key generateKey(byte[] seed) throws CryptoException {
+    public static SecretKey generateKey(byte[] seed) throws CryptoException {
         try {
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("DESede");
             return secretKeyFactory.generateSecret(new DESedeKeySpec(seed));

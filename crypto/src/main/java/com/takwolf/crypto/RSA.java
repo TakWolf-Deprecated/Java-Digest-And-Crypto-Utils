@@ -31,7 +31,7 @@ public final class RSA {
             this.value = value;
         }
 
-        public String getValue() {
+        public String value() {
             return value;
         }
 
@@ -41,12 +41,12 @@ public final class RSA {
 
     /**
      * 生成秘钥对
-     * 可以加密的数据长度为：keysize/8-11
+     * 可以加密的数据长度为：keysize / 8-11
      */
-    public static KeyPair generateKeyPair(int keysize) throws CryptoException {
+    public static KeyPair generateKeyPair(int keySize) throws CryptoException {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-            keyPairGenerator.initialize(keysize);
+            keyPairGenerator.initialize(keySize);
             return keyPairGenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
             throw new CryptoException(e);
@@ -110,7 +110,7 @@ public final class RSA {
      */
     public static byte[] sign(SignatureAlgorithm signatureAlgorithm, PrivateKey privateKey, byte[] data) throws CryptoException {
         try {
-            Signature signature = Signature.getInstance(signatureAlgorithm.getValue());
+            Signature signature = Signature.getInstance(signatureAlgorithm.value());
             signature.initSign(privateKey);
             signature.update(data);
             return signature.sign();
@@ -124,7 +124,7 @@ public final class RSA {
      */
     public static boolean verify(SignatureAlgorithm signatureAlgorithm, PublicKey publicKey, byte[] data, byte[] sign) throws CryptoException {
         try {
-            Signature signature = Signature.getInstance(signatureAlgorithm.getValue());
+            Signature signature = Signature.getInstance(signatureAlgorithm.value());
             signature.initVerify(publicKey);
             signature.update(data);
             return signature.verify(sign);
