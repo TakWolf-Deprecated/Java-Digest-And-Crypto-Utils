@@ -1,6 +1,6 @@
 # Java Digest And Crypto Utils #
 
-自用Java摘要加密工具类，兼容Android环境，目前包含有：
+自用 Java 摘要加密工具类，兼容 Android 环境，目前包含有：
 
 - 摘要工具类有：Digest、Hmac
 
@@ -8,7 +8,7 @@
 
 有关对称加密的几种模式，请参考：[http://www.jianshu.com/p/b63095c59361](http://www.jianshu.com/p/b63095c59361)
 
-Base64工具类在Android上需要替换为android.util.Base64实现
+Base64 工具类在 Android 上需要替换为 `android.util.Base64` 实现
 
 在线验证工具：[http://tool.oschina.net/encrypt](http://tool.oschina.net/encrypt)
 
