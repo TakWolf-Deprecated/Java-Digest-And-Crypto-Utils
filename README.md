@@ -1,4 +1,4 @@
-# Java Digest And Crypto Utils #
+# Java Digest And Crypto Utils
 
 自用 Java 摘要加密工具类，兼容 Android 环境，目前包含有：
 
@@ -12,15 +12,7 @@ Base64 工具类在 Android 上需要替换为 `android.util.Base64` 实现
 
 在线验证工具：[http://tool.oschina.net/encrypt](http://tool.oschina.net/encrypt)
 
-## Author ##
-
-TakWolf
-
-[takwolf@foxmail.com](mailto:takwolf@foxmail.com)
-
-[http://takwolf.com](http://takwolf.com)
-
-## License ##
+## License
 
 ```
 Copyright 2014 TakWolf
